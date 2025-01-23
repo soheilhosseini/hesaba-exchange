@@ -37,7 +37,7 @@ const CurrencyContainer = ({
           type="number"
           className={styles.container__input}
           disabled={isDeactive}
-          placeholder={isDeactive ? "" : "Enter A Value"}
+          placeholder={isDeactive ? "" : "Amount"}
           max={balance}
           min={0}
           {...input}

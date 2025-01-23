@@ -42,7 +42,7 @@ const Exchange = () => {
     if (!isUninitialized && !rate?.price) {
       setError("Rate is not available");
     }
-  }, [rate]);
+  }, [rate, isUninitialized]);
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -57,12 +57,13 @@ const Exchange = () => {
     );
   };
 
-  const handleSwap = (e: React.ChangeEvent<HTMLButtonElement>) => {
+  const handleSwap = (e: MouseEvent) => {
     e.preventDefault();
     const source = sourceCurrency.value;
     const destination = destinationCurrency.value;
     sourceCurrency.onChange({ target: { value: destination } });
     destinationCurrency.onChange({ target: { value: source } });
+    sourceAmount.onChange({ target: { value: "" } });
   };
 
   return (
