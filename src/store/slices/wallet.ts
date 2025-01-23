@@ -12,11 +12,17 @@ const WalletSlice = createSlice({
   initialState: initialState,
   reducers: {
     exchange(state, { payload }) {
-        // state[payload.]
+      const sourceCurrency = payload.sourceCurrency as Currencies;
+      const amount = payload.amount as number;
+      const destinationCurrency = payload.destinationCurrency as Currencies;
+      const rate = payload.rate as number;
+      state[sourceCurrency] -= amount;
+      state[destinationCurrency] += amount * rate;
     },
-
   },
 });
 
-export const {exchange} = WalletSlice.actions;
-export default WalletSlice.reducer
+export const { exchange } = WalletSlice.actions;
+export default WalletSlice.reducer;
+
+export const walletSelector = (state) => state.wallet;

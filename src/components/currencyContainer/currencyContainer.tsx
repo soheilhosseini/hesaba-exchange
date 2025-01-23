@@ -2,19 +2,26 @@ import styles from "./currencyContainer.module.css";
 import SelectBox from "@/components/common/selectbox";
 import { Currencies } from "@/types/currencies";
 import { InputHandlerInterface } from "@/types/inputHandler";
+
+interface option {
+  text: Currencies;
+  value: Currencies;
+}
 interface Props {
   isDeactive?: boolean;
   input: InputHandlerInterface;
   selectbox: InputHandlerInterface;
+  balance: number;
+  options: option[];
 }
 
-const options = [
-  { text: "GBP", value: "GBP" },
-  { text: "USD", value: "USD" },
-  { text: "JPY", value: "JPY" },
-];
-
-const CurrencyContainer = ({ isDeactive, input, selectbox }: Props) => {
+const CurrencyContainer = ({
+  isDeactive,
+  input,
+  selectbox,
+  balance,
+  options,
+}: Props) => {
   return (
     <div
       className={`${styles.container} ${
@@ -23,7 +30,7 @@ const CurrencyContainer = ({ isDeactive, input, selectbox }: Props) => {
     >
       <div>
         <SelectBox options={options} selectbox={selectbox} />
-        <p className={styles.container__price}>2163$</p>
+        <p className={styles.container__price}>{balance}</p>
       </div>
       <div>
         <input
@@ -31,6 +38,8 @@ const CurrencyContainer = ({ isDeactive, input, selectbox }: Props) => {
           className={styles.container__input}
           disabled={isDeactive}
           placeholder={isDeactive ? "" : "Enter A Value"}
+          max={balance}
+          min={0}
           {...input}
         />
       </div>

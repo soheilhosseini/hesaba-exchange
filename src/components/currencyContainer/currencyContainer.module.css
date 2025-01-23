@@ -6,7 +6,7 @@
     width: 100%;
     min-width: 100%;
     border: 1px solid #edf2ef;
-    padding: 16px
+    padding: 24px 16px
 }
 
 .container--disabled{
@@ -41,4 +41,5 @@
     color: gray;
     font-weight: bold;
     margin-left: 6px;
+    height: 15px;
 }
