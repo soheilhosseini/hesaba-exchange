@@ -1,6 +1,6 @@
 import styles from "./currencyContainer.module.css";
 import SelectBox from "src/components/common/selectbox";
-import { Currencies } from "src/types/currencies";
+import { Currencies, CurrenciesSign } from "src/types/currencies";
 import { InputHandlerInterface } from "src/types/inputHandler";
 
 interface option {
@@ -30,7 +30,9 @@ const CurrencyContainer = ({
     >
       <div>
         <SelectBox options={options} selectbox={selectbox} />
-        <p className={styles.container__price}>{balance}</p>
+        <p className={styles.container__price}>
+          {selectbox.value && balance + ' ' + CurrenciesSign[selectbox.value]}
+        </p>
       </div>
       <div>
         <input
@@ -39,7 +41,8 @@ const CurrencyContainer = ({
           disabled={isDeactive}
           placeholder={isDeactive ? "" : "Amount"}
           max={balance}
-          min={0}
+          min={0.01}
+          step="0.01"
           {...input}
         />
       </div>
