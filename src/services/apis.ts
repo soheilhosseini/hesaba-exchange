@@ -3,7 +3,7 @@ const apiKey = import.meta.env.VITE_API_KEY;
 export const baseApis = createApi({
   reducerPath: "base",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://api.twelvedata.com/1",
+    baseUrl: "https://api.twelvedata.com/",
   }),
   endpoints: (builder) => ({
     getExchangesRate: builder.query({
