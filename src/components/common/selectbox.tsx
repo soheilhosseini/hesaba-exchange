@@ -14,7 +14,7 @@ interface Props {
 const SelectBox = ({ options = [], selectbox }: Props) => {
   const isElementInOptions = Boolean(options.length);
   return (
-    <select className={styles.select} defaultValue={""} {...selectbox}>
+    <select className={styles.select} {...selectbox}>
       <option value={""} disabled>
         Choose a currency
       </option>

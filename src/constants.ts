@@ -11,4 +11,4 @@ export const CURRENCIES: CurrencyInterface[] = [
   { title: Currencies.AUD, value: Currencies.AUD, symbol: CurrenciesSign.AUD },
 ];
 
-export const POLLING_INTERVAL = 5000;
+export const POLLING_INTERVAL = 50000;

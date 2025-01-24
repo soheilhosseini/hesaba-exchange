@@ -9,12 +9,12 @@ import { CurrencyInterface } from "../../types/currencies";
 import { useGetExchangesRateQuery } from "../../services/apis";
 import { useInputHandler } from "../../hooks/useInputHandler";
 import { RootState } from "../../store/store";
+import { POLLING_INTERVAL } from "../../constants";
 import {
   exchange,
   walletSelector,
   WalletStateType,
 } from "../../store/slices/wallet";
-import { POLLING_INTERVAL } from "../../constants";
 
 const Exchange = () => {
   const dispatch = useDispatch();
@@ -22,10 +22,10 @@ const Exchange = () => {
   const sourceAmount = useInputHandler("");
   const destinationCurrency = useInputHandler("");
   const destinationAmount = useInputHandler("");
-  const isSourceCurrencySelected = Boolean(sourceAmount.value);
-  const [error, setError] = useState("");
+  const isAmountExist = Boolean(sourceAmount.value);
+  const [errorMessage, setErrorMessgae] = useState("");
   const wallet = useSelector<RootState, WalletStateType>(walletSelector);
-  const { data, isLoading, isUninitialized } = useGetExchangesRateQuery(
+  const { data, isLoading, error } = useGetExchangesRateQuery(
     {
       sourceCurrency: sourceCurrency.value.toString(),
       destinationCurrency: destinationCurrency.value.toString(),
@@ -37,24 +37,23 @@ const Exchange = () => {
     }
   );
   const rate = data?.price;
-  const isRequestSendAndRateDoesNotExist =
-    !isUninitialized && !isLoading && !rate;
+  const isRequestSendAndRateDoesNotExist = error || !rate;
 
   useEffect(() => {
     if (isRequestSendAndRateDoesNotExist) {
-      setError("Rate is not available");
+      setErrorMessgae("Rate is not updated");
     } else {
-      setError("");
+      setErrorMessgae("");
     }
-  }, [rate, isLoading, isUninitialized]);
+  }, [isRequestSendAndRateDoesNotExist]);
 
   useEffect(() => {
-    if (isSourceCurrencySelected && rate) {
+    if (isAmountExist && rate) {
       destinationAmount.onChange({
         target: { value: Number(sourceAmount.value) * rate },
       });
     }
-  }, [sourceAmount.value, rate]);
+  }, [isAmountExist, rate]);
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -66,6 +65,8 @@ const Exchange = () => {
         amount: Number(sourceAmount.value),
       })
     );
+    sourceAmount.onChange({ target: { value: "" } });
+    destinationAmount.onChange({ target: { value: "" } });
   };
 
   const handleSwap = (e: React.MouseEvent) => {
@@ -124,7 +125,7 @@ const Exchange = () => {
           <img src={SwapIcon} style={{ width: "20px" }} />
         </button>
       </div>
-      {error && <p className={styles.container__error}>{error}</p>}
+      {error && <p className={styles.container__error}>{errorMessage}</p>}
       <button
         type="submit"
         className={styles.container__button}
