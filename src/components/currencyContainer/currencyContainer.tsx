@@ -31,7 +31,7 @@ const CurrencyContainer = ({
       <div>
         <SelectBox options={options} selectbox={selectbox} />
         <p className={styles.container__price}>
-          {selectbox.value && balance + ' ' + CurrenciesSign[selectbox.value]}
+          {selectbox.value && balance + " " + CurrenciesSign[selectbox.value]}
         </p>
       </div>
       <div>
@@ -40,8 +40,8 @@ const CurrencyContainer = ({
           className={styles.container__input}
           disabled={isDeactive}
           placeholder={isDeactive ? "" : "Amount"}
-          max={balance}
-          min={0.01}
+          max={!isDeactive && balance}
+          min={!isDeactive && 0.01}
           step="0.01"
           {...input}
         />

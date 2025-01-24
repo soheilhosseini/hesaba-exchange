@@ -1,8 +1,8 @@
 .select {
   border: none;
-  width: 100px;
-  font-weight: lighter;
-  font-size: 20px;
+  width: auto;
+  font-weight: bold;
+  font-size: 16px;
   background-color: transparent;
   outline: none;
 }

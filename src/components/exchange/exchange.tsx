@@ -73,7 +73,7 @@ const Exchange = () => {
     sourceAmount.onChange({ target: { value: "" } });
   };
 
-  const disableExchange =
+  const disableExchangeSubmitButton =
     isLoading ||
     !sourceCurrency.value ||
     !destinationCurrency.value ||
@@ -119,11 +119,11 @@ const Exchange = () => {
           <img src={SwapIcon} style={{ width: "20px" }} />
         </button>
       </div>
-      {error && <p className={styles.container__inner__error}>{error}</p>}
+      {error && <p className={styles.container__error}>{error}</p>}
       <button
         type="submit"
         className={styles.container__button}
-        disabled={disableExchange}
+        disabled={disableExchangeSubmitButton}
       >
         {isLoading ? "Loading" : "Exchange"}
       </button>

@@ -16,7 +16,7 @@ const SelectBox = ({ options = [], selectbox }: Props) => {
   return (
     <select className={styles.select} defaultValue={""} {...selectbox}>
       <option value={""} disabled>
-        choose
+        Choose a currency
       </option>
       {isElementInOptions ? (
         options.map((item) => (
