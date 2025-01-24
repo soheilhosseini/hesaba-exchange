@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-const apiKey = "0024a3402fd44e89a296203ba837e4eb";
+const apiKey = import.meta.env.VITE_API_KEY;
 export const baseApis = createApi({
   reducerPath: "base",
   baseQuery: fetchBaseQuery({
