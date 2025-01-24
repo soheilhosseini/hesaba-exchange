@@ -53,11 +53,9 @@
   color: white;
   border: none;
   width: 200px;
-  cursor: pointer;
 }
 .container__button:disabled {
   background-color: gray;
-  cursor: auto;
 }
 
 .container__error {

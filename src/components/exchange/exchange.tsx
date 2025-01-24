@@ -1,25 +1,32 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import CurrencyContainer from "@/components/currencyContainer/currencyContainer";
 import styles from "./exchange.module.css";
-import { Currencies } from "@/types/currencies";
-import { useGetExchangesRateQuery } from "../../services/apis";
-import { useInputHandler } from "@/hooks/useInputHandler";
-import { exchange, walletSelector } from "../../store/slices/wallet";
+import { useDispatch, useSelector } from "react-redux";
+import SwapIcon from "src/assets/swap.svg";
+import CurrencyContainer from "src/components/currencyContainer/currencyContainer";
+import { Currencies } from "src/types/currencies";
+import { useGetExchangesRateQuery } from "src/services/apis";
+import { useInputHandler } from "src/hooks/useInputHandler";
+import {
+  exchange,
+  walletSelector,
+  WalletStateType,
+} from "src/store/slices/wallet";
+import { RootState } from "src/store";
 
 const options = [
-  { text: "GBP", value: "GBP" },
-  { text: "USD", value: "USD" },
-  { text: "JPY", value: "JPY" },
+  { title: Currencies.USD, value: Currencies.USD },
+  { title: Currencies.GBP, value: Currencies.GBP },
+  { title: Currencies.JPY, value: Currencies.JPY },
+  { title: Currencies.AUD, value: Currencies.AUD },
 ];
 
 const Exchange = () => {
+  const dispatch = useDispatch();
   const sourceCurrency = useInputHandler("");
   const sourceAmount = useInputHandler("");
   const destinationCurrency = useInputHandler("");
   const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const wallet = useSelector(walletSelector);
+  const wallet = useSelector<RootState, WalletStateType>(walletSelector);
   const {
     data: rate,
     isLoading,
@@ -31,16 +38,18 @@ const Exchange = () => {
     },
     {
       skip: !sourceCurrency.value || !destinationCurrency.value,
-      pollingInterval: 60000,
+      pollingInterval: 5000,
       refetchOnMountOrArgChange: true,
     }
   );
 
-  const tempRate = 1.25;
+  const tempRate = 1.25; // **********************************
 
   useEffect(() => {
     if (!isUninitialized && !rate?.price) {
       setError("Rate is not available");
+    } else {
+      setError("");
     }
   }, [rate, isUninitialized]);
 
@@ -57,7 +66,7 @@ const Exchange = () => {
     );
   };
 
-  const handleSwap = (e: MouseEvent) => {
+  const handleSwap = (e: React.MouseEvent) => {
     e.preventDefault();
     const source = sourceCurrency.value;
     const destination = destinationCurrency.value;
@@ -74,18 +83,25 @@ const Exchange = () => {
           selectbox={sourceCurrency}
           balance={wallet[sourceCurrency.value]}
           options={options.filter(
-            (item) => item.text !== destinationCurrency.value
+            (item) => item.title !== destinationCurrency.value
           )}
         />
         <CurrencyContainer
           selectbox={destinationCurrency}
           balance={wallet[destinationCurrency.value]}
-          options={options.filter((item) => item.text !== sourceCurrency.value)}
+          options={options.filter(
+            (item) => item.title !== sourceCurrency.value
+          )}
           isDeactive
         />
         <div className={styles.container__inner__rate}>{rate?.price} $</div>
-        <button className={styles.container__inner__swap} onClick={handleSwap}>
-          1
+        <button
+          className={styles.container__inner__swap}
+          onClick={handleSwap}
+          disabled={!sourceCurrency.value || !destinationCurrency.value}
+          type="button"
+        >
+          <img src={SwapIcon} />
         </button>
       </div>
       {error && <p className={styles.container__inner__error}>{error}</p>}

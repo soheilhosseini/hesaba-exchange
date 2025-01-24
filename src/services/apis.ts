@@ -6,7 +6,7 @@ export const baseApis = createApi({
     baseUrl: "https://api.twelvedata.com/",
   }),
   endpoints: (builder) => ({
-    getExchangesRate: builder.query<string>({
+    getExchangesRate: builder.query({
       query({
         sourceCurrency,
         destinationCurrency,
