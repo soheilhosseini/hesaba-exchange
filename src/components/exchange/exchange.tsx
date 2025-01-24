@@ -22,6 +22,7 @@ const Exchange = () => {
   const sourceAmount = useInputHandler("");
   const destinationCurrency = useInputHandler("");
   const destinationAmount = useInputHandler("");
+  const isSourceCurrencySelected = Boolean(sourceAmount.value);
   const [error, setError] = useState("");
   const wallet = useSelector<RootState, WalletStateType>(walletSelector);
   const { data, isLoading, isUninitialized } = useGetExchangesRateQuery(
@@ -36,9 +37,11 @@ const Exchange = () => {
     }
   );
   const rate = data?.price;
+  const isRequestSendAndRateDoesNotExist =
+    !isUninitialized && !isLoading && !rate;
 
   useEffect(() => {
-    if (!isUninitialized && !isLoading && !rate) {
+    if (isRequestSendAndRateDoesNotExist) {
       setError("Rate is not available");
     } else {
       setError("");
@@ -46,7 +49,7 @@ const Exchange = () => {
   }, [rate, isLoading, isUninitialized]);
 
   useEffect(() => {
-    if (sourceAmount.value && rate) {
+    if (isSourceCurrencySelected && rate) {
       destinationAmount.onChange({
         target: { value: Number(sourceAmount.value) * rate },
       });
