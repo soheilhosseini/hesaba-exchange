@@ -72,6 +72,7 @@ const Exchange = () => {
     sourceCurrency.onChange({ target: { value: destination } });
     destinationCurrency.onChange({ target: { value: source } });
     sourceAmount.onChange({ target: { value: "" } });
+    destinationAmount.onChange({ target: { value: "" } });
   };
 
   const disableExchangeSubmitButton =
