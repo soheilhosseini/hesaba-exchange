@@ -1,10 +1,13 @@
 import styles from "./currencyContainer.module.css";
-import SelectBox from "src/components/common/selectbox";
-import { Currencies, CurrenciesSign } from "src/types/currencies";
-import { InputHandlerInterface } from "src/types/inputHandler";
+import SelectBox from "../common/selectbox";
+import {
+  Currencies,
+  CurrencyInterface,
+} from "../../types/currencies";
+import { InputHandlerInterface } from "../../types/inputHandler";
 
 interface option {
-  text: Currencies;
+  title: Currencies;
   value: Currencies;
 }
 interface Props {
@@ -22,6 +25,9 @@ const CurrencyContainer = ({
   balance,
   options,
 }: Props) => {
+  const currency = options.find(
+    (item) => item.title === selectbox.value
+  ) as CurrencyInterface;
   return (
     <div
       className={`${styles.container} ${
@@ -31,20 +37,28 @@ const CurrencyContainer = ({
       <div>
         <SelectBox options={options} selectbox={selectbox} />
         <p className={styles.container__price}>
-          {selectbox.value && balance + " " + CurrenciesSign[selectbox.value]}
+          {selectbox.value && balance + " " + currency.symbol}
         </p>
       </div>
       <div>
-        <input
-          type="number"
-          className={styles.container__input}
-          disabled={isDeactive}
-          placeholder={isDeactive ? "" : "Amount"}
-          max={!isDeactive && balance}
-          min={!isDeactive && 0.01}
-          step="0.01"
-          {...input}
-        />
+        {isDeactive ? (
+          <input
+            type="number"
+            className={styles.container__input}
+            disabled
+            {...input}
+          />
+        ) : (
+          <input
+            type="number"
+            className={styles.container__input}
+            placeholder={"Amount"}
+            max={balance}
+            min={0.01}
+            step="0.01"
+            {...input}
+          />
+        )}
       </div>
     </div>
   );

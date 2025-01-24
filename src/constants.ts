@@ -2,7 +2,7 @@ import {
   Currencies,
   CurrenciesSign,
   CurrencyInterface,
-} from "src/types/currencies.ts";
+} from "./types/currencies.ts";
 
 export const CURRENCIES: CurrencyInterface[] = [
   { title: Currencies.GBP, value: Currencies.GBP, symbol: CurrenciesSign.GBP },

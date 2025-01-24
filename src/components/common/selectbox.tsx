@@ -1,5 +1,5 @@
 import styles from "./selectbox.module.css";
-import { InputHandlerInterface } from "src/types/inputHandler";
+import { InputHandlerInterface } from "../../types/inputHandler";
 
 interface Option {
   value: string;

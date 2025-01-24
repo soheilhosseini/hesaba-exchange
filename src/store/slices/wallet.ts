@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Currencies } from "src/types/currencies";
+import { Currencies } from "../../types/currencies";
+import { RootState } from "../store";
 
 export type WalletStateType = Record<Currencies, number>;
 
@@ -28,4 +29,4 @@ const WalletSlice = createSlice({
 export const { exchange } = WalletSlice.actions;
 export default WalletSlice.reducer;
 
-export const walletSelector = (state: WalletStateType) => state.wallet;
+export const walletSelector = (state: RootState) => state.wallet;

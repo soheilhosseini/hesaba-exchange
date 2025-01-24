@@ -1,4 +1,4 @@
 export interface InputHandlerInterface {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLElement>) => void;
+  value: string | number;
+  onChange: (e: { target: { value: string | number } }) => void;
 }

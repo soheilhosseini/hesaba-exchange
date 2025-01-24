@@ -1,20 +1,20 @@
 import { useEffect, useState } from "react";
 import styles from "./exchange.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import SwapIcon from "src/assets/swap.svg";
-import TrendingUpIcon from "src/assets/trendingUp.svg";
-import CurrencyContainer from "src/components/currencyContainer/currencyContainer";
-import { CURRENCIES } from "src/constants";
-import { CurrencyInterface } from "src/types/currencies";
-import { useGetExchangesRateQuery } from "src/services/apis";
-import { useInputHandler } from "src/hooks/useInputHandler";
-import { RootState } from "src/store";
+import SwapIcon from "../../assets/swap.svg";
+import TrendingUpIcon from "../../assets/trendingUp.svg";
+import CurrencyContainer from "../../components/currencyContainer/currencyContainer";
+import { CURRENCIES } from "../../constants";
+import { CurrencyInterface } from "../../types/currencies";
+import { useGetExchangesRateQuery } from "../../services/apis";
+import { useInputHandler } from "../../hooks/useInputHandler";
+import { RootState } from "../../store/store";
 import {
   exchange,
   walletSelector,
   WalletStateType,
-} from "src/store/slices/wallet";
-import { POLLING_INTERVAL } from "src/constants";
+} from "../../store/slices/wallet";
+import { POLLING_INTERVAL } from "../../constants";
 
 const Exchange = () => {
   const dispatch = useDispatch();
@@ -26,8 +26,8 @@ const Exchange = () => {
   const wallet = useSelector<RootState, WalletStateType>(walletSelector);
   const { data, isLoading, isUninitialized } = useGetExchangesRateQuery(
     {
-      sourceCurrency: sourceCurrency.value,
-      destinationCurrency: destinationCurrency.value,
+      sourceCurrency: sourceCurrency.value.toString(),
+      destinationCurrency: destinationCurrency.value.toString(),
     },
     {
       skip: !sourceCurrency.value || !destinationCurrency.value,
@@ -46,10 +46,11 @@ const Exchange = () => {
   }, [rate, isLoading, isUninitialized]);
 
   useEffect(() => {
-    if (sourceAmount.value && rate)
+    if (sourceAmount.value && rate) {
       destinationAmount.onChange({
-        target: { value: sourceAmount.value * rate },
+        target: { value: Number(sourceAmount.value) * rate },
       });
+    }
   }, [sourceAmount.value, rate]);
 
   const handleSubmit = async (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -89,7 +90,7 @@ const Exchange = () => {
         <CurrencyContainer
           input={sourceAmount}
           selectbox={sourceCurrency}
-          balance={wallet[sourceCurrency.value]}
+          balance={wallet[sourceCurrency.value as keyof WalletStateType]}
           options={CURRENCIES.filter(
             (item: CurrencyInterface) =>
               item.title !== destinationCurrency.value
@@ -98,7 +99,7 @@ const Exchange = () => {
         <CurrencyContainer
           input={destinationAmount}
           selectbox={destinationCurrency}
-          balance={wallet[destinationCurrency.value]}
+          balance={wallet[destinationCurrency.value as keyof WalletStateType]}
           options={CURRENCIES.filter(
             (item: CurrencyInterface) => item.title !== sourceCurrency.value
           )}
