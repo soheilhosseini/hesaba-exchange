@@ -1,7 +1,7 @@
 import styles from "./currencyContainer.module.css";
-import SelectBox from "@/components/common/selectbox";
-import { Currencies } from "@/types/currencies";
-import { InputHandlerInterface } from "@/types/inputHandler";
+import SelectBox from "src/components/common/selectbox";
+import { Currencies } from "src/types/currencies";
+import { InputHandlerInterface } from "src/types/inputHandler";
 
 interface option {
   text: Currencies;

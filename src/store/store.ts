@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { baseApis } from "@/services/apis";
-import walletReducer from "@/store/slices/wallet";
+import { baseApis } from "src/services/apis";
+import walletReducer from "src/store/slices/wallet";
 
 export const store = configureStore({
   reducer: {

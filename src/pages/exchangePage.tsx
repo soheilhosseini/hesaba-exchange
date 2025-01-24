@@ -1,4 +1,4 @@
-import Exchange from "@/components/exchange/exchange";
+import Exchange from "src/components/exchange/exchange";
 import styles from "./exchangePage.module.css";
 
 const ExchangePage = () => {

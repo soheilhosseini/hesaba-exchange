@@ -1,9 +1,9 @@
 import styles from "./selectbox.module.css";
-import { InputHandlerInterface } from "@/types/inputHandler";
+import { InputHandlerInterface } from "src/types/inputHandler";
 
 interface Option {
   value: string;
-  text: string;
+  title: string;
 }
 
 interface Props {
@@ -20,8 +20,8 @@ const SelectBox = ({ options = [], selectbox }: Props) => {
       </option>
       {isElementInOptions ? (
         options.map((item) => (
-          <option key={item.text} value={item.value}>
-            {item.text}
+          <option key={item.title} value={item.value}>
+            {item.title}
           </option>
         ))
       ) : (
